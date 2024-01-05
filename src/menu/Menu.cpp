@@ -76,7 +76,7 @@ void menu::create_menu() {
 
                 cout << "Genetic Algorithm" << endl;
                 GeneticAlgorithm geneticAlgorithm = GeneticAlgorithm{config};
-                geneticAlgorithm.process(config.stopping_condition);
+                geneticAlgorithm.process(graph);
 
                 // TODO: print Result
 //                solution = result.best_path;
@@ -100,8 +100,8 @@ void menu::create_menu() {
             }
             case 9: {
                 cout << "Choose mutation type: ";
-                cout << "1. TOURNAMENT" << endl;
-                cout << "2. ROULETTE WHEEL" << endl;
+                cout << "1. SWAP" << endl;
+                cout << "2. INSERT" << endl;
                 cin >> buffer;
 
                 choice = std::stoi(buffer);

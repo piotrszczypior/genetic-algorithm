@@ -16,14 +16,18 @@ GeneticAlgorithm::GeneticAlgorithm(AlgorithmConfig config) {
     generations_number = config.generations_number;
     crossover_rate = config.crossover_rate;
     mutation_rate = config.mutation_rate;
+    time_stop_criteria = config.stopping_condition;
     selection_type = config.crossover_type;
 }
 
-void GeneticAlgorithm::process(int time_stop_criteria) {
+Result GeneticAlgorithm::process(const Graph& graph) {
     auto start_time = std::chrono::high_resolution_clock::now();
     std::chrono::seconds duration(time_stop_criteria);
 
     while (std::chrono::high_resolution_clock::now() - start_time < duration) {
 
     }
+
+
+    return {};
 }

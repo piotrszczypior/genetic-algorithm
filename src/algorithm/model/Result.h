@@ -1,0 +1,8 @@
+#ifndef GENETIC_ALGORITHM_RESULT_H
+#define GENETIC_ALGORITHM_RESULT_H
+
+class Result {
+
+};
+
+#endif //GENETIC_ALGORITHM_RESULT_H

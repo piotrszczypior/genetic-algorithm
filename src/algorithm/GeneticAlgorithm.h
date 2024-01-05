@@ -4,6 +4,8 @@
 
 #include "../model/CrossoverType.h"
 #include "../model/AlgorithmConfig.h"
+#include "model/Result.h"
+#include "../model/Graph.h"
 
 class GeneticAlgorithm {
 private:
@@ -11,6 +13,7 @@ private:
     int generations_number;
     float crossover_rate;
     float mutation_rate;
+    int time_stop_criteria;
     CrossoverType selection_type;
 
 
@@ -24,8 +27,7 @@ public:
      *
      *
      * */
-    void process(int time_stop_criteria);
-    
+    Result process(const Graph& graph);
 };
 
 

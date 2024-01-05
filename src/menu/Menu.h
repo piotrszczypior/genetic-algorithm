@@ -13,8 +13,8 @@ namespace menu {
     };
 
     std::map<int, MutationType> mutation_map = {
-            {1, MutationType::TOURNAMENT},
-            {2, MutationType::ROULETTE_WHEEL}
+            {1, MutationType::SWAP},
+            {2, MutationType::INSERT}
     };
 
     void create_menu();

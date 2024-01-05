@@ -2,8 +2,8 @@
 #define GENETIC_ALGORITHM_MUTATIONTYPE_H
 
 enum class MutationType {
-    TOURNAMENT,
-    ROULETTE_WHEEL,
+    SWAP,
+    INSERT,
 };
 
 #endif //GENETIC_ALGORITHM_MUTATIONTYPE_H
