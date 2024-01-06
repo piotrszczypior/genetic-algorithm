@@ -86,8 +86,8 @@ void menu::create_menu() {
             }
             case 8: {
                 cout << "Choose crossover type: ";
-                cout << "1. TOURNAMENT" << endl;
-                cout << "2. ROULETTE WHEEL" << endl;
+                cout << "1. PARTIALLY MAPPED CROSSOVER" << endl;
+                cout << "2. PARTITION CROSSOVER" << endl;
                 cin >> buffer;
 
                 choice = std::stoi(buffer);
@@ -100,8 +100,8 @@ void menu::create_menu() {
             }
             case 9: {
                 cout << "Choose mutation type: ";
-                cout << "1. SWAP" << endl;
-                cout << "2. INSERT" << endl;
+                cout << "1. DISPLACEMENT MUTATION" << endl;
+                cout << "2. INSERTION MUTATION" << endl;
                 cin >> buffer;
 
                 choice = std::stoi(buffer);

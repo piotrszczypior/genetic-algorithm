@@ -8,13 +8,13 @@
 
 namespace menu {
     std::map<int, CrossoverType> crossover_map = {
-            {1, CrossoverType::TOURNAMENT},
-            {2, CrossoverType::ROULETTE_WHEEL}
+            {1, CrossoverType::PARTIALLY_MAPPED_CROSSOVER},
+            {2, CrossoverType::PARTITION_CROSSOVER}
     };
 
     std::map<int, MutationType> mutation_map = {
-            {1, MutationType::SWAP},
-            {2, MutationType::INSERT}
+            {1, MutationType::DISPLACEMENT_MUTATION},
+            {2, MutationType::INSERTION_MUTATION}
     };
 
     void create_menu();

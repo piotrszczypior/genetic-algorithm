@@ -6,9 +6,9 @@
 class Chromosome {
 public:
     std::vector<int> tour;
-    float fitness;
+    int fitness;
 
-    Chromosome() :  fitness(0.0f) {}
+    Chromosome() :  fitness(0) {}
 };
 
 #endif //GENETIC_ALGORITHM_CHROMOSOME_H
