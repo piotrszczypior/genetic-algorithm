@@ -30,13 +30,13 @@ private:
     int calculate_fitness(const Chromosome &chromosome);
 
     std::vector<Chromosome> tournament_selection(const std::vector<Chromosome> &population);
+public:
 
     void mutate(Chromosome &chromosome);
 
     void crossover(Chromosome &first_chromosome, Chromosome &second_chromosome, Chromosome &first_offspring,
                    Chromosome &second_offspring);
 
-public:
 
     explicit GeneticAlgorithm(AlgorithmConfig config);
 

@@ -1,10 +1,12 @@
 #ifndef GENETIC_ALGORITHM_RESULT_H
 #define GENETIC_ALGORITHM_RESULT_H
 
+#include <vector>
+
 class Result {
 public:
     int path_cost;
-    vector<int> tour;
+    std::vector<int> tour;
 };
 
 #endif //GENETIC_ALGORITHM_RESULT_H

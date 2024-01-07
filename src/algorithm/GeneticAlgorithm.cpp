@@ -11,18 +11,42 @@ GeneticAlgorithm::GeneticAlgorithm(AlgorithmConfig config) {
 Result GeneticAlgorithm::process(const Graph &graph) {
     this->graph = graph;
     std::vector<Chromosome> population = initialize_population();
+    cout << "Population size: " << population.size() << endl;
 
     auto start_time = std::chrono::high_resolution_clock::now();
     std::chrono::seconds duration(config.stopping_condition);
 
     while (std::chrono::high_resolution_clock::now() - start_time < duration) {
         // TODO: use crossover and mutation based on rate parameters
+        for (size_t i = 0; i < config.population_size; i += 2) {
+            double random_value = ((double) rand() / (RAND_MAX));
+            if (random_value < config.crossover_rate && i + 1 < population.size()) {
+                Chromosome &parent1 = population[i];
+                Chromosome &parent2 = population[i + 1];
+                Chromosome offspring1, offspring2;
+
+                crossover(parent1, parent2, offspring1, offspring2);
+
+                population.push_back(offspring1);
+                population.push_back(offspring2);
+            }
+        }
+        cout << "Crossover over" << endl;
+
+        for (Chromosome &chromosome: population) {
+            double random_value = ((double) rand() / (RAND_MAX));
+            if (random_value < config.mutation_rate) {
+                mutate(chromosome);
+            }
+        }
+        cout << "mutate" << endl;
 
         evaluate_population(population);
         auto fittest_chromosome = min_element(population.begin(), population.end(), compare_chromosomes);
         if (fittest_chromosome->fitness < result.path_cost) {
             result.path_cost = fittest_chromosome->fitness;
             result.tour = fittest_chromosome->tour;
+            cout << "New best " << fittest_chromosome->fitness << endl;
         }
         population = tournament_selection(population);
     }
@@ -56,7 +80,7 @@ std::vector<Chromosome> GeneticAlgorithm::tournament_selection(const std::vector
     std::vector<Chromosome> selected_parents;
     int tournament_size = int(graph.get_city_number() * 0.35);
 
-    while (selected_parents.size() < population.size()) {
+    while (selected_parents.size() < config.population_size) {
         std::vector<Chromosome> tournament;
 
         for (int i = 0; i < tournament_size; ++i) {
@@ -64,7 +88,7 @@ std::vector<Chromosome> GeneticAlgorithm::tournament_selection(const std::vector
             tournament.push_back(population[randomIndex]);
         }
 
-        Chromosome fittest = *std::max_element(tournament.begin(), tournament.end(), compare_chromosomes);
+        Chromosome fittest = *std::min_element(tournament.begin(), tournament.end(), compare_chromosomes);
         selected_parents.push_back(fittest);
     }
 
@@ -88,7 +112,7 @@ void GeneticAlgorithm::mutate(Chromosome &chromosome) {
     std::vector<int> subsequence(chromosome.tour.begin() + start, chromosome.tour.begin() + end);
     chromosome.tour.erase(chromosome.tour.begin() + start, chromosome.tour.begin() + end);
 
-    int insertionPoint = std::uniform_int_distribution<int>(0, chromosome.tour.size() - subsequence.size())(generator);
+    int insertionPoint = std::uniform_int_distribution<int>(1, chromosome.tour.size() - subsequence.size())(generator);
 
     chromosome.tour.insert(chromosome.tour.begin() + insertionPoint, subsequence.begin(), subsequence.end());
 }
@@ -100,8 +124,7 @@ GeneticAlgorithm::crossover(Chromosome &first_chromosome, Chromosome &second_chr
     int city_number = graph.get_city_number();
 
     int first_crossover_point = uniform_int_distribution<int>(1, city_number - 2)(generator);
-    int second_crossover_point = uniform_int_distribution<int>(first_crossover_point + 1, city_number - 2)(generator);
-
+    int second_crossover_point = uniform_int_distribution<int>(first_crossover_point + 1, city_number - 1)(generator);
 
     first_offspring.tour = first_chromosome.tour;
     second_offspring.tour = second_chromosome.tour;
@@ -110,25 +133,26 @@ GeneticAlgorithm::crossover(Chromosome &first_chromosome, Chromosome &second_chr
         std::swap(first_offspring.tour[i], second_offspring.tour[i]);
     }
 
-    static const auto repair = [&](Chromosome &offspring, const Chromosome &otherParent) {
-        std::unordered_map<int, int> mapping;
-        for (int i = first_crossover_point; i <= second_crossover_point; ++i) {
-            mapping[otherParent.tour[i]] = offspring.tour[i];
-        }
+    const auto repair =
+            [&](Chromosome &offspring, const Chromosome &first_parent, const Chromosome &second_parent) {
+                std::unordered_map<int, int> mapping;
+                for (int i = first_crossover_point; i <= second_crossover_point; ++i) {
+                    mapping[first_parent.tour[i]] = second_parent.tour[i];
+                }
 
-        for (int i = 0; i < city_number; ++i) {
-            if (i >= first_crossover_point && i <= second_crossover_point) {
-                continue;
-            }
+                for (int i = 1; i < city_number; ++i) {
+                    if (i >= first_crossover_point && i <= second_crossover_point) {
+                        continue;
+                    }
 
-            while (mapping.find(offspring.tour[i]) != mapping.end()) {
-                offspring.tour[i] = mapping[offspring.tour[i]];
-            }
-        }
-    };
+                    while (mapping.find(offspring.tour[i]) != mapping.end()) {
+                        offspring.tour[i] = mapping[offspring.tour[i]];
+                    }
+                }
+            };
 
-    repair(first_offspring, second_chromosome);
-    repair(second_offspring, first_chromosome);
+    repair(first_offspring, second_chromosome, first_chromosome);
+    repair(second_offspring, first_chromosome, second_chromosome);
 }
 
 void GeneticAlgorithm::evaluate_population(std::vector<Chromosome> &population) {
