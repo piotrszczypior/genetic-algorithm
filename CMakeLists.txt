@@ -19,4 +19,5 @@ add_executable(genetic-algorithm src/main.cpp
         src/model/MutationType.h
         src/menu/Utils.cpp
         src/algorithm/model/Chromosome.h
-        src/algorithm/model/Result.h)
+        src/algorithm/model/Result.h
+        src/file-writer/FileWriter.cpp)
