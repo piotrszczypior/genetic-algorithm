@@ -2,7 +2,7 @@
 #include "../model/Graph.h"
 #include "../file/FileReader.h"
 #include "Utils.h"
-#include "../model/AlgorithmConfig.h"
+#include "../algorithm/model/AlgorithmConfig.h"
 #include "../algorithm/GeneticAlgorithm.h"
 #include <iostream>
 

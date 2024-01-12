@@ -1,8 +1,8 @@
 #ifndef GENETIC_ALGORITHM_ALGORITHMCONFIG_H
 #define GENETIC_ALGORITHM_ALGORITHMCONFIG_H
 
-#include "CrossoverType.h"
-#include "MutationType.h"
+#include "../../model/CrossoverType.h"
+#include "../../model/MutationType.h"
 
 class AlgorithmConfig {
 public:
@@ -13,6 +13,12 @@ public:
     float mutation_rate{};
     CrossoverType crossover_type = CrossoverType::PARTIALLY_MAPPED_CROSSOVER;
     MutationType mutation_type = MutationType::DISPLACEMENT_MUTATION;
+    int number_of_elites = 2;
+    float elitism_percentage = 0.01;
+
+    int calculate_number_of_elites() {
+        return static_cast<int>(population_size * elitism_percentage);
+    }
 };
 
 #endif //GENETIC_ALGORITHM_ALGORITHMCONFIG_H

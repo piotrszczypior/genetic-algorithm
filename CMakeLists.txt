@@ -15,9 +15,9 @@ add_executable(genetic-algorithm src/main.cpp
         src/model/Graph.h
         src/model/CrossoverType.h
         src/menu/Menu.cpp
-        src/model/AlgorithmConfig.h
+        src/algorithm/model/AlgorithmConfig.h
         src/model/MutationType.h
         src/menu/Utils.cpp
         src/algorithm/model/Chromosome.h
         src/algorithm/model/Result.h
-        src/file-writer/FileWriter.cpp)
+        src/file-writer/FileWriter.cpp src/algorithm/crossover/OrderedCrossoverProducer.h src/algorithm/crossover/PartiallyMappedCrossoverProducer.h src/algorithm/factory/CrossoverProducerFactory.h src/algorithm/crossover/AbstractCrossoverProducer.h)

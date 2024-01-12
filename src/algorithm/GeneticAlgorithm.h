@@ -2,10 +2,11 @@
 #define GENETIC_ALGORITHM_GENETICALGORITHM_H
 
 #include "../model/CrossoverType.h"
-#include "../model/AlgorithmConfig.h"
+#include "model/AlgorithmConfig.h"
 #include "model/Result.h"
 #include "../model/Graph.h"
 #include "model/Chromosome.h"
+#include "crossover/AbstractCrossoverProducer.h"
 #include <random>
 #include <functional>
 
@@ -14,8 +15,9 @@ private:
     Graph graph;
     AlgorithmConfig config;
     std::mt19937 generator{std::random_device{}()};
-
     Result result;
+
+    AbstractCrossoverProducer* crossoverProducer;
 
     std::vector<Chromosome> initialize_population();
 
@@ -35,11 +37,12 @@ private:
 
     pair<Chromosome, Chromosome> crossover(const Chromosome &first_chromosome, const Chromosome &second_chromosome);
 
+    vector<Chromosome> select_elite_individuals(const vector<Chromosome> &population);
 public:
+
     explicit GeneticAlgorithm(AlgorithmConfig config);
 
     Result process(const Graph &graph);
-
 };
 
 

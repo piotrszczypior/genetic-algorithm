@@ -9,7 +9,7 @@
 namespace menu {
     std::map<int, CrossoverType> crossover_map = {
             {1, CrossoverType::PARTIALLY_MAPPED_CROSSOVER},
-            {2, CrossoverType::PARTITION_CROSSOVER}
+            {2, CrossoverType::ORDERED_CROSSOVER}
     };
 
     std::map<int, MutationType> mutation_map = {

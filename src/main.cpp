@@ -7,12 +7,14 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
 
-    auto graph = FileReader::read_graph_from_xml_file("../data/ftv170.xml");
+    auto graph = FileReader::read_graph_from_xml_file("../data/ftv47.xml");
     AlgorithmConfig config = AlgorithmConfig();
-    config.population_size = 2000;
+    config.population_size = 1000;
     config.crossover_rate = 0.8;
     config.mutation_rate = 0.01;
-    config.stopping_condition = 4 * 60;
+    config.stopping_condition = 2 * 60;
+    config.elitism_percentage = 0.001;
+    config.number_of_elites = 2;
 
     GeneticAlgorithm ga = GeneticAlgorithm(config);
 
