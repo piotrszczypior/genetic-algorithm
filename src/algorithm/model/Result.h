@@ -8,6 +8,8 @@ public:
     int path_cost;
     std::vector<int> tour;
 
+    std::vector<std::pair<double, int>> measurements;
+
     Result() : path_cost(99999) {}
 };
 

@@ -9,7 +9,7 @@
 class FileWriter {
 
 public:
-    static void write_to_file(std::string file_name, const std::vector<int> &path);
+    static void write_to_file(std::string file_name, int cost, const std::vector<int>& path);
 };
 
 

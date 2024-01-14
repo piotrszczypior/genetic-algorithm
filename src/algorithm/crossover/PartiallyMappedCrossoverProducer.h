@@ -14,16 +14,16 @@
 class PartiallyMappedCrossoverProducer : public AbstractCrossoverProducer {
 
     std::pair<Chromosome, Chromosome> crossover(int city_number,
-                                                const Chromosome& first_chromosome,
-                                                const Chromosome &second_chromosome) override {
+                                                const Chromosome& first_parent,
+                                                const Chromosome &second_parent) override {
         Chromosome first_offspring;
         Chromosome second_offspring;
 
         int first_crossover_point = std::uniform_int_distribution<int>(1, city_number - 3)(generator);
         int second_crossover_point = std::uniform_int_distribution<int>(first_crossover_point + 1, city_number - 1)(generator);
 
-        first_offspring.tour = first_chromosome.tour;
-        second_offspring.tour = second_chromosome.tour;
+        first_offspring.tour = first_parent.tour;
+        second_offspring.tour = second_parent.tour;
 
         for (int i = first_crossover_point; i <= second_crossover_point; ++i) {
             std::swap(first_offspring.tour[i], second_offspring.tour[i]);
@@ -47,8 +47,8 @@ class PartiallyMappedCrossoverProducer : public AbstractCrossoverProducer {
                     }
                 };
 
-        repair(first_offspring, second_chromosome, first_chromosome);
-        repair(second_offspring, first_chromosome, second_chromosome);
+        repair(first_offspring, second_parent, first_parent);
+        repair(second_offspring, first_parent, second_parent);
         return std::make_pair(first_offspring, second_offspring);
     }
 

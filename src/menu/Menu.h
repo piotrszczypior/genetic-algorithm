@@ -14,7 +14,7 @@ namespace menu {
 
     std::map<int, MutationType> mutation_map = {
             {1, MutationType::DISPLACEMENT_MUTATION},
-            {2, MutationType::INSERTION_MUTATION}
+            {2, MutationType::SCRAMBLE_MUTATION}
     };
 
     void create_menu();

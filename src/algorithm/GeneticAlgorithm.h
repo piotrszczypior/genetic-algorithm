@@ -7,6 +7,7 @@
 #include "../model/Graph.h"
 #include "model/Chromosome.h"
 #include "crossover/AbstractCrossoverProducer.h"
+#include "mutation/AbstractMutationProducer.h"
 #include <random>
 #include <functional>
 
@@ -18,6 +19,7 @@ private:
     Result result;
 
     AbstractCrossoverProducer* crossoverProducer;
+    AbstractMutationProducer* mutationProducer;
 
     std::vector<Chromosome> initialize_population();
 
@@ -26,20 +28,19 @@ private:
                 return first.fitness < second.fitness;
             };
 
-
     void evaluate_population(std::vector<Chromosome> &population);
 
     int calculate_fitness(const Chromosome &chromosome);
 
     std::vector<Chromosome> tournament_selection(const std::vector<Chromosome> &population);
 
-    void mutate(Chromosome &chromosome);
+    void evaluate_chromosome(Chromosome &chromosome);
 
-    pair<Chromosome, Chromosome> crossover(const Chromosome &first_chromosome, const Chromosome &second_chromosome);
+    void evaluate_chromosomes(pair<Chromosome, Chromosome> &chromosomes);
 
     vector<Chromosome> select_elite_individuals(const vector<Chromosome> &population);
-public:
 
+public:
     explicit GeneticAlgorithm(AlgorithmConfig config);
 
     Result process(const Graph &graph);
