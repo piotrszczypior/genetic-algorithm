@@ -49,7 +49,6 @@ Result GeneticAlgorithm::process(const Graph &graph) {
         if (fittest_chromosome->fitness < result.path_cost) {
             result.path_cost = fittest_chromosome->fitness;
             result.tour = fittest_chromosome->tour;
-//            cout << result.path_cost << endl;
 
             auto measure_time =
                     std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start_time).count();
@@ -86,8 +85,6 @@ std::vector<Chromosome> GeneticAlgorithm::tournament_selection(const std::vector
     std::vector<Chromosome> new_population;
     int tournament_size = int(graph.get_city_number() * 0.05);
     auto best = *std::min_element(population.begin(), population.end(), compare_chromosomes);
-    // TODO:
-//    std::remove(population.begin(), population.end(), best);
     auto distribution = std::uniform_int_distribution<int>(0, int(population.size()) - 1);
 
     while (new_population.size() < config.population_size - 1) {
@@ -120,19 +117,6 @@ void GeneticAlgorithm::evaluate_population(std::vector<Chromosome> &population) 
     for (auto &chromosome: population) {
         chromosome.fitness = calculate_fitness(chromosome);
     }
-}
-
-vector<Chromosome> GeneticAlgorithm::select_elite_individuals(const vector<Chromosome> &population) {
-    std::vector<Chromosome> elites;
-    elites.reserve(config.number_of_elites);
-
-    std::vector<Chromosome> sorted_population = population;
-    std::sort(sorted_population.begin(), sorted_population.end(), compare_chromosomes);
-
-    for (int i = 0; i < config.number_of_elites; ++i) {
-        elites.push_back(sorted_population[i]);
-    }
-    return elites;
 }
 
 void GeneticAlgorithm::evaluate_chromosome(Chromosome &chromosome) {

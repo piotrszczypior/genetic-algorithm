@@ -2,7 +2,6 @@
 #include "../model/Graph.h"
 #include "../file/FileReader.h"
 #include "Utils.h"
-#include "../algorithm/model/AlgorithmConfig.h"
 #include "../algorithm/GeneticAlgorithm.h"
 #include <iostream>
 
@@ -73,25 +72,22 @@ void menu::create_menu() {
                     utils::press_key_to_continue();
                     break;
                 }
-
-                cout << "Genetic Algorithm" << endl;
+                print_config(config);
                 GeneticAlgorithm geneticAlgorithm = GeneticAlgorithm{config};
-                geneticAlgorithm.process(graph);
+                auto result = geneticAlgorithm.process(graph);
 
-                // TODO: print Result
-//                solution = result.best_path;
-//                print_result(result.greedy_cost, result.best_cost, result.best_path);
+                print_result(result);
                 utils::press_key_to_continue();
                 break;
             }
             case 8: {
-                cout << "Choose crossover type: ";
+                cout << "Choose crossover type: " << endl;
                 cout << "1. PARTIALLY MAPPED CROSSOVER" << endl;
                 cout << "2. PARTITION CROSSOVER" << endl;
                 cin >> buffer;
 
                 choice = std::stoi(buffer);
-                if (crossover_map.find(choice) != crossover_map.end()) {
+                if (menu::crossover_map.find(choice) != crossover_map.end()) {
                     config.crossover_type = crossover_map[choice];
                     break;
                 }
@@ -99,13 +95,13 @@ void menu::create_menu() {
                 break;
             }
             case 9: {
-                cout << "Choose mutation type: ";
+                cout << "Choose mutation type: " << endl;
                 cout << "1. DISPLACEMENT MUTATION" << endl;
                 cout << "2. INSERTION MUTATION" << endl;
                 cin >> buffer;
 
                 choice = std::stoi(buffer);
-                if (mutation_map.find(choice) != mutation_map.end()) {
+                if (menu::mutation_map.find(choice) != mutation_map.end()) {
                     config.mutation_type = mutation_map[choice];
                     break;
                 }
@@ -141,13 +137,36 @@ void menu::print_options() {
     cout << "Choose: ";
 }
 
-void menu::print_result(int greedy_result, int algorithm_result, const vector<int>& path) {
-    cout << "----results----" << endl;
-    cout << "Greedy result: " << greedy_result << endl;
-    cout << "Final result: " << algorithm_result << endl;
+void menu::print_result(const Result &result) {
+    cout << endl;
+    cout << "Path cost: " << result.path_cost << endl;
     cout << "Path: ";
-    for (auto city: path) {
+    for (auto city: result.tour) {
         cout << city << " ";
     }
     cout << endl;
+}
+
+
+void menu::print_config(AlgorithmConfig config) {
+    cout << "Running Genetic Algorithm with: " << endl;
+    cout << "Termination condition: " << config.stopping_condition << " [s]" << endl;
+    cout << "Population size " << config.population_size << endl;
+
+    cout << "Crossover " << get_crossover_type(config.crossover_type)
+         << " with crossover rate " << config.crossover_rate << endl;
+    cout << "Mutation " << get_mutation_type(config.mutation_type)
+         << " with mutation rate " << config.mutation_rate << endl;
+}
+
+std::string menu::get_crossover_type(CrossoverType type) {
+    if (type == CrossoverType::PARTIALLY_MAPPED_CROSSOVER)
+        return "PARTIALLY MAPPED CROSSOVER";
+    return "ORDERED CROSSOVER";
+}
+
+std::string menu::get_mutation_type(MutationType type) {
+    if (type == MutationType::DISPLACEMENT_MUTATION)
+        return "DISPLACEMENT MUTATION";
+    return "SCRAMBLE MUTATION";
 }

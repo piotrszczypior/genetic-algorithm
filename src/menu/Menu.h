@@ -5,14 +5,17 @@
 #include <map>
 #include "../model/CrossoverType.h"
 #include "../model/MutationType.h"
+#include "../algorithm/model/AlgorithmConfig.h"
+#include "../algorithm/model/Result.h"
+#include <string>
 
 namespace menu {
-    std::map<int, CrossoverType> crossover_map = {
+    static std::map<int, CrossoverType> crossover_map = {
             {1, CrossoverType::PARTIALLY_MAPPED_CROSSOVER},
             {2, CrossoverType::ORDERED_CROSSOVER}
     };
 
-    std::map<int, MutationType> mutation_map = {
+    static std::map<int, MutationType> mutation_map = {
             {1, MutationType::DISPLACEMENT_MUTATION},
             {2, MutationType::SCRAMBLE_MUTATION}
     };
@@ -21,7 +24,13 @@ namespace menu {
 
     void print_options();
 
-    void print_result(int greedy_result, int algorithm_result, const std::vector<int> &path);
+    std::string get_crossover_type(CrossoverType type);
+
+    std::string get_mutation_type(MutationType type);
+
+    void print_config(AlgorithmConfig config);
+
+    void print_result(const Result& result);
 }
 
 #endif //META_HEURISTIC_ALGORITHMS_MENU_H
